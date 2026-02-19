@@ -3,7 +3,7 @@
     "rewrites": [
         {
             "source": "/api/(.*)",
-            "destination": "https://your-backend-api.com/api/$1"
+            "destination": "https://defence-intelligence.onrender.com/api/$1"
         }
     ]
 }
