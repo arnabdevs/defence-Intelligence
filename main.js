@@ -11,6 +11,7 @@ const PROD_API_BASE = 'https://defence-intelligence.onrender.com';
 
 let API_BASE = isLocal ? 'http://localhost:5000' : PROD_API_BASE;
 
+let API_KEY = localStorage.getItem('AEGIS_KEY');
 let isGuest = false;
 
 function checkAuth() {
