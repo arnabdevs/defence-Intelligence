@@ -25,7 +25,8 @@ def train_supervised(data_path, model_dir):
     import seaborn as sns
     from sklearn.metrics import ConfusionMatrixDisplay
     
-    results_dir = "d:/defance intelligence/AI-BlueTeam-SOC/results"
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    results_dir = os.path.join(base_dir, "results")
     if not os.path.exists(results_dir):
         os.makedirs(results_dir)
         
@@ -54,6 +55,7 @@ def train_supervised(data_path, model_dir):
     print(f"Model saved to {model_dir}")
 
 if __name__ == "__main__":
-    data_file = "d:/defance intelligence/AI-BlueTeam-SOC/data/processed/cleaned_data.csv"
-    model_folder = "d:/defance intelligence/AI-BlueTeam-SOC/models/saved"
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    data_file = os.path.join(base_dir, "data", "processed", "cleaned_data.csv")
+    model_folder = os.path.join(base_dir, "models", "saved")
     train_supervised(data_file, model_folder)

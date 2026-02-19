@@ -37,6 +37,9 @@ def clean_data(input_path, output_dir):
     print(f"Data cleaned and saved to {output_dir}")
 
 if __name__ == "__main__":
-    input_csv = "d:/defance intelligence/AI-BlueTeam-SOC/data/cicids_sample.csv"
-    output_folder = "d:/defance intelligence/AI-BlueTeam-SOC/data/processed"
+    # Use relative paths for portability
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    input_csv = os.path.join(base_dir, "data", "cicids_sample.csv")
+    output_folder = os.path.join(base_dir, "data", "processed")
+    
     clean_data(input_csv, output_folder)

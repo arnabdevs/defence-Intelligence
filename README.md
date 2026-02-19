@@ -1,4 +1,4 @@
-# AEGIS SOC Engine | AI-Driven Cyber Defense
+# aegis-soc-engine | AI-Driven Cyber Defense
 
 **AEGIS** is a next-generation Security Operations Center (SOC) Engine that leverages dual-engine Artificial Intelligence to detect, analyze, and neutralize network threats in real-time.
 
@@ -75,4 +75,4 @@ For a completely free "Mission Control" deployment, use these services:
 └── results/         # Evaluation Metrics & Graphs
 ```
 
-Created with 🛡️ by the AEGIS Security Team.
+Created with 🛡️ by the aegis-soc-engine Security Team.

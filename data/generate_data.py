@@ -43,7 +43,8 @@ def generate_synthetic_data(output_path):
     print(f"Synthetic data generated at {output_path}")
 
 if __name__ == "__main__":
-    output_dir = "d:/defance intelligence/AI-BlueTeam-SOC/data"
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    output_dir = os.path.join(base_dir, "data")
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     generate_synthetic_data(os.path.join(output_dir, "cicids_sample.csv"))

@@ -20,6 +20,7 @@ def train_anomaly(data_path, model_dir):
     print(f"Anomaly model saved to {model_dir}")
 
 if __name__ == "__main__":
-    data_file = "d:/defance intelligence/AI-BlueTeam-SOC/data/processed/cleaned_data.csv"
-    model_folder = "d:/defance intelligence/AI-BlueTeam-SOC/models/saved"
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    data_file = os.path.join(base_dir, "data", "processed", "cleaned_data.csv")
+    model_folder = os.path.join(base_dir, "models", "saved")
     train_anomaly(data_file, model_folder)

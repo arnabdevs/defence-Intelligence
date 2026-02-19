@@ -1,3 +1,4 @@
+// AEGIS SOC Engine - aegis-soc-engine - Protected by AI 🛡️
 // Chart.js loaded via CDN
 
 const alertFeed = document.getElementById('alert-feed');

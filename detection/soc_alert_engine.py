@@ -6,9 +6,12 @@ from datetime import datetime
 
 class AlertEngine:
     def __init__(self, model_dir, mapping_path):
+        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         self.rf_model = joblib.load(os.path.join(model_dir, "supervised_rf.joblib"))
         self.an_model = joblib.load(os.path.join(model_dir, "anomaly_if.joblib"))
-        self.le = joblib.load("d:/defance intelligence/AI-BlueTeam-SOC/data/processed/label_encoder.joblib")
+        # Load label encoder
+        le_path = os.path.join(base_dir, "data", "processed", "label_encoder.joblib")
+        self.le = joblib.load(le_path)
         
         with open(mapping_path, 'r') as f:
             self.mapping = json.load(f)
@@ -44,9 +47,10 @@ class AlertEngine:
 
 if __name__ == "__main__":
     # Test alert generation
-    engine = AlertEngine("d:/defance intelligence/AI-BlueTeam-SOC/models/saved", 
-                         "d:/defance intelligence/AI-BlueTeam-SOC/mitre/attack_mapping.json")
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    engine = AlertEngine(os.path.join(base_dir, "models", "saved"), 
+                         os.path.join(base_dir, "mitre", "attack_mapping.json"))
     
     # Load sample and test first row
-    sample = pd.read_csv("d:/defance intelligence/AI-BlueTeam-SOC/data/processed/cleaned_data.csv").drop('Label_Enc', axis=1).iloc[[0]]
+    sample = pd.read_csv(os.path.join(base_dir, "data", "processed", "cleaned_data.csv")).drop('Label_Enc', axis=1).iloc[[0]]
     print(json.dumps(engine.generate_alert(sample), indent=2))
