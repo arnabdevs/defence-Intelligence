@@ -265,3 +265,10 @@ setInterval(() => {
     const s = (seconds % 60).toString().padStart(2, '0');
     document.getElementById('uptime').textContent = `${h}:${m}:${s}`;
 }, 1000);
+
+// Initial Dashboard Load
+if (API_KEY) {
+    console.log("🚀 Initializing AEGIS Mission Control...");
+    fetchStats();
+    fetchAlerts();
+}
