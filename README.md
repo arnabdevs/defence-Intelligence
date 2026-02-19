@@ -24,17 +24,16 @@ Traditional security relying on static rules fails against modern "Zero-Day" att
 
 ## 🚀 Hosting & Deployment
 
-### 1. Backend (API)
-The backend is ready for platforms like **Render**, **Heroku**, or **DigitalOcean**.
+### 1. Backend (AI Brain)
+The backend is located in the `backend/` directory and is optimized for **Render**.
+- **Root Directory**: `backend`
 - **Build Command**: `pip install -r requirements.txt`
-- **Start Command**: `python api/app.py` (Waitress will automatically handle production traffic).
-- **Env Vars**: Set `HOST=0.0.0.0` and `PORT=5000` (or as required by the host).
+- **Start Command**: `python app.py`
 
 ### 2. Frontend (Dashboard)
-Host on **Vercel** or **Netlify**.
-- **Build Command**: `npm run build`
-- **Output Directory**: `dist`
-- **Note**: The dashboard automatically detects your API if hosted on the same domain or if the API URL follows the heuristic in `main.js`.
+The dashboard is located in the **Root Folder** and is optimized for **Vercel**.
+- **Root Directory**: `./` (Root)
+- **Build Settings**: Override all to "Empty" (Direct Static Hosting).
 
 ### 3. Docker (Recommended)
 Run the entire stack with one command:
@@ -48,31 +47,34 @@ docker-compose up --build
 
 For a completely free "Mission Control" deployment, use these services:
 
-### 1. Backend: [Render](https://render.com/) (Free Tier)
-- **Repo**: Link your GitHub repo.
-- **Environment**: Python.
+### 1. Backend: [Render](https://render.com/)
+- **Root Directory**: `backend`
 - **Build Command**: `pip install -r requirements.txt`
-- **Start Command**: `python api/app.py`
-- **Env Var**: Add `AEGIS_API_KEY` with your chosen password.
-- *Note: Free instances spin down after inactivity; the first request might take ~30 seconds.*
+- **Start Command**: `python app.py`
 
-### 2. Frontend: [Vercel](https://vercel.com/) or [Netlify](https://www.netlify.com/)
-- **Repo**: Link the same GitHub repo.
-- **Root Directory**: `frontend`
-- **Build Command**: None (or `npm run build` if using Vite)
-- **Output Directory**: `.` (or `dist`)
+### 2. Frontend: [Vercel](https://vercel.com/)
+- **Root Directory**: `./` (Empty)
+- **Framework**: Other / Vite
 
 ---
 
 ## 📁 Repository Structure
 ```text
-├── api/             # Flask Backend API
-├── data/            # Data Generation & Raw Samples
-├── detection/       # Core SOC Alert Logic
-├── frontend/        # "Mission Control" Dashboard
-├── models/          # Trained AI Models (.joblib)
-├── preprocessing/   # Data Cleaning & Scaling
-└── results/         # Evaluation Metrics & Graphs
+├── backend/         # Secure AI API Brain (Python/Flask)
+├── index.html       # Mission Control Dashboard (Static)
+├── main.js          # AI Connectivity & Logic
+├── style.css        # Premium Visual Engine
+└── vercel.json      # Master Routing Configuration
 ```
+
+---
+
+## 🛡️ Security & Simulation Disclaimer
+The AEGIS SOC Engine is a **visual demonstration and education tool**. 
+- **Mock Simulations**: All "Attacks" (SQLi, DDoS, etc.) are purely visual mocks. NO network traffic or packets are ever sent to any third-party websites typed by visitors.
+- **Input Sanitization**: All visitor inputs are sanitized and length-limited on both the frontend and backend to prevent injection attacks.
+- **Safe Purpose**: This platform is designed strictly for cybersecurity training and AI portfolio showcase.
+
+---
 
 Created with 🛡️ by the aegis-soc-engine Security Team.
