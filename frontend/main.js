@@ -11,18 +11,49 @@ const PROD_API_BASE = 'https://defence-intelligence.onrender.com';
 
 let API_BASE = isLocal ? 'http://localhost:5000' : PROD_API_BASE;
 
-let API_KEY = localStorage.getItem('AEGIS_KEY');
+let isGuest = false;
 
 function checkAuth() {
-    // API_BASE is now pre-configured for production
-    if (!API_KEY) {
-        API_KEY = prompt("🔐 SECURITY ACCESS REQUIRED\nEnter your AEGIS API Key:");
-        if (API_KEY) {
-            localStorage.setItem('AEGIS_KEY', API_KEY);
-            location.reload();
-        } else {
-            document.body.innerHTML = '<div style="height:100vh; display:flex; align-items:center; justify-content:center; background:#050505; color:red; font-family:monospace;">ACCESS DENIED: API KEY REQUIRED</div>';
-        }
+    // If key exists in storage, bypass portal
+    if (API_KEY) {
+        document.getElementById('access-portal').classList.add('portal-hidden');
+        initDashboard();
+    }
+}
+
+window.handleLogin = function () {
+    const input = document.getElementById('api-key-input').value;
+    if (input) {
+        API_KEY = input;
+        localStorage.setItem('AEGIS_KEY', API_KEY);
+        location.reload();
+    } else {
+        showLoginError();
+    }
+}
+
+window.enterGuestMode = function () {
+    isGuest = true;
+    API_KEY = 'GUEST_ACCESS'; // Backend will allow reading with this
+    document.getElementById('access-portal').classList.add('portal-hidden');
+    initDashboard();
+}
+
+function showLoginError() {
+    document.getElementById('login-error').style.display = 'block';
+}
+
+function initDashboard() {
+    console.log("🚀 Initializing AEGIS Mission Control...");
+    fetchStats();
+    fetchAlerts();
+    // Protect simulations
+    if (isGuest) {
+        document.querySelectorAll('button[onclick*="simulateAttack"]').forEach(btn => {
+            btn.disabled = true;
+            btn.style.opacity = '0.3';
+            btn.title = 'ADMIN ACCESS REQUIRED';
+        });
     }
 }
 
@@ -266,9 +297,4 @@ setInterval(() => {
     document.getElementById('uptime').textContent = `${h}:${m}:${s}`;
 }, 1000);
 
-// Initial Dashboard Load
-if (API_KEY) {
-    console.log("🚀 Initializing AEGIS Mission Control...");
-    fetchStats();
-    fetchAlerts();
-}
+// Initial Dashboard Load removed from global scope to be manual via checkAuth

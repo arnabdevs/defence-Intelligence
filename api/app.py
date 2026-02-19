@@ -16,8 +16,15 @@ def require_api_key(f):
     from functools import wraps
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if request.headers.get('X-API-Key') != API_KEY:
-            return jsonify({"error": "Unauthorized: Invalid API Key"}), 401
+        provided_key = request.headers.get('X-API-Key')
+        
+        # Allow Guest Access for GET (Read-Only)
+        if request.method == 'GET' and provided_key == 'GUEST_ACCESS':
+            return f(*args, **kwargs)
+            
+        # Require Master Key for everything else (POST/Simulate)
+        if provided_key != API_KEY:
+            return jsonify({"error": "Unauthorized: Master Access Required"}), 401
         return f(*args, **kwargs)
     return decorated_function
 

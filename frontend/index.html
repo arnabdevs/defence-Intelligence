@@ -13,6 +13,26 @@
 </head>
 
 <body>
+    <!-- Professional Access Portal Overlay -->
+    <div id="access-portal" class="access-portal">
+        <div class="portal-box">
+            <div class="logo" style="font-size: 2.5rem; margin-bottom: 1rem;">AEGIS SOC</div>
+            <p style="color: #888; margin-bottom: 2rem;">ADVANCED THREAT DETECTION ENGINE v1.0</p>
+
+            <div class="input-group">
+                <input type="password" id="api-key-input" placeholder="ENTER SECURE ACCESS KEY">
+                <button onclick="handleLogin()" class="btn-primary">ACCESS MISSION CONTROL</button>
+            </div>
+
+            <div class="divider">OR</div>
+
+            <button onclick="enterGuestMode()" class="btn-secondary">EXPLORE AS GUEST (READ-ONLY)</button>
+
+            <p id="login-error" style="color: var(--danger); margin-top: 1rem; font-size: 0.8rem; display: none;">
+                INVALID ACCESS KEY. ATTEMPT LOGGED.</p>
+        </div>
+    </div>
+
     <div class="mission-control">
         <header>
             <div class="logo">AEGIS SOC ENGINE</div>
