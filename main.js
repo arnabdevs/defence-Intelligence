@@ -48,12 +48,27 @@ function initDashboard() {
     console.log("🚀 Initializing AEGIS Mission Control...");
     fetchStats();
     fetchAlerts();
-    // Protect simulations
+    // Initially protect simulations, but allow override via search
+    updateSimulationState();
+}
+
+function updateSimulationState() {
+    const searchVal = document.getElementById('global-site-search')?.value;
+    const isSearchActive = searchVal && searchVal.length > 3;
+
     if (isGuest) {
         document.querySelectorAll('button[onclick*="simulateAttack"]').forEach(btn => {
-            btn.disabled = true;
-            btn.style.opacity = '0.3';
-            btn.title = 'ADMIN ACCESS REQUIRED';
+            if (isSearchActive) {
+                btn.disabled = false;
+                btn.style.opacity = '1';
+                btn.title = `TEST SECURITY ON ${searchVal.toUpperCase()}`;
+                btn.classList.add('pulse-active');
+            } else {
+                btn.disabled = true;
+                btn.style.opacity = '0.3';
+                btn.title = 'TYPE YOUR WEBSITE ABOVE TO TEST';
+                btn.classList.remove('pulse-active');
+            }
         });
     }
 }
@@ -129,13 +144,18 @@ function showMitreDetails(alert) {
 
 window.simulateAttack = async function (type) {
     try {
+        const targetSite = document.getElementById('global-site-search')?.value || 'visitor-lab.local';
+
         const response = await fetch(`${API_BASE}/api/simulate`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-API-Key': API_KEY
             },
-            body: JSON.stringify({ type })
+            body: JSON.stringify({
+                type: type,
+                target_site: targetSite
+            })
         });
         const data = await response.json();
         console.log('Simulation started:', data);
@@ -150,6 +170,10 @@ const globalSiteSearch = document.getElementById('global-site-search');
 if (globalSiteSearch) {
     globalSiteSearch.oninput = (e) => {
         const query = e.target.value.toLowerCase();
+
+        // Update simulation availability for guests
+        updateSimulationState();
+
         const alertItems = document.querySelectorAll('.alert-item');
         alertItems.forEach(item => {
             const siteText = item.querySelector('.alert-details').textContent.toLowerCase();
