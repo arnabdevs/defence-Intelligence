@@ -115,9 +115,10 @@ function addAlertToFeed(alert) {
             <span class="alert-severity">${alert.severity}</span>
         </div>
         <div class="alert-details">
-            ID: ${alert.alert_id} | Confidence: ${alert.confidence}% | Site: <span style="color: var(--primary)">${alert.target_site}</span>
+            ID: ${alert.alert_id} | Confidence: ${alert.confidence}% | Site: <span class="site-tag" style="color: var(--primary)"></span>
         </div>
     `;
+    item.querySelector('.site-tag').textContent = alert.target_site;
 
     item.onclick = () => showMitreDetails(alert);
 

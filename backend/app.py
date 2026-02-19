@@ -80,7 +80,8 @@ simulated_threat_queue = []
 @require_api_key
 def simulate_threat():
     target_type = request.json.get('type', 'SQL Injection')
-    target_site = request.json.get('target_site', 'visitor-lab.local')
+    # Basic Sanitization: Remove tags and limit length
+    target_site = request.json.get('target_site', 'visitor-lab.local')[:50].replace('<', '').replace('>', '')
     
     alert = generate_mock_alert(target_type)
     alert['target_site'] = target_site # Override with visitor's site
