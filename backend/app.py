@@ -18,11 +18,11 @@ def require_api_key(f):
     def decorated_function(*args, **kwargs):
         provided_key = request.headers.get('X-API-Key')
         
-        # Allow Guest Access for GET (Read-Only)
-        if request.method == 'GET' and provided_key == 'GUEST_ACCESS':
+        # Allow Guest Access for GET (Read-Only) and Simulations
+        if (request.method == 'GET' or request.path == '/api/simulate') and provided_key == 'GUEST_ACCESS':
             return f(*args, **kwargs)
             
-        # Require Master Key for everything else (POST/Simulate)
+        # Require Master Key for everything else
         if provided_key != API_KEY:
             return jsonify({"error": "Unauthorized: Master Access Required"}), 401
         return f(*args, **kwargs)
@@ -54,7 +54,12 @@ def generate_mock_alert(atype=None):
         atype = random.choices(types, weights=[15, 10, 5, 15, 15, 10, 30])[0]
         
     tech = techniques[atype]
-    sites = ["clint-portfolio.com", "clint-shop.net", "clint-internal-api.dev", "clint-website.com"]
+    
+    # Use site_name if provided (e.g., from visitor testing)
+    target_site = request.json.get('target_site') if request.is_json else None
+    if not target_site:
+        sites = ["clint-portfolio.com", "clint-shop.net", "clint-internal-api.dev", "clint-website.com"]
+        target_site = random.choice(sites)
     
     return {
         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -75,7 +80,11 @@ simulated_threat_queue = []
 @require_api_key
 def simulate_threat():
     target_type = request.json.get('type', 'SQL Injection')
+    target_site = request.json.get('target_site', 'visitor-lab.local')
+    
     alert = generate_mock_alert(target_type)
+    alert['target_site'] = target_site # Override with visitor's site
+    
     simulated_threat_queue.append(alert)
     return jsonify({"status": "Simulation triggered", "alert": alert})
 
