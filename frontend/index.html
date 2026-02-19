@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AEGIS SOC | AI-Driven Threat Intel</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="mission-control">
+        <header>
+            <div class="logo">AEGIS SOC ENGINE</div>
+            <div class="status-bar">
+                <div class="status-item">ENGINE STATUS: <span id="engine-status">INITIALIZING...</span></div>
+                <div class="status-item">UPTIME: <span id="uptime">00:00:00</span></div>
+            </div>
+        </header>
+
+        <aside>
+            <nav>
+                <ul>
+                    <li class="active">EXECUTIVE OVERVIEW</li>
+                    <li>THREAT ACTIVITY</li>
+                    <li>DATA ANALYTICS</li>
+                    <li>SECURITY STRATEGY</li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main>
+            <!-- Executive Overview (Client-Facing) -->
+            <div id="executive-overview-view" class="view">
+                <div class="content-area">
+                    <div style="display: grid; grid-template-columns: 1fr 200px; gap: 1rem; margin-bottom: 1rem;">
+                        <div
+                            style="background: linear-gradient(135deg, rgba(0,242,255,0.1), rgba(112,0,255,0.1)); padding: 2.5rem; border-radius: 12px; border: 1px solid rgba(0,242,255,0.2); display: flex; flex-direction: column; justify-content: center;">
+                            <h2 style="color: var(--primary); font-size: 1.8rem; margin-bottom: 0.5rem;">STATUS:
+                                COMPROMISE REFUSED</h2>
+                            <p style="color: #ccc; font-size: 1.1rem; margin-bottom: 1.5rem;">Your AI Guardian is
+                                active. No critical breaches have been detected in the last 24 hours.</p>
+
+                            <div style="position: relative; margin-bottom: 1.5rem;">
+                                <input type="text" id="global-site-search"
+                                    placeholder="🔍 SEARCH THREATS BY WEBSITE (e.g. clint-website.com)"
+                                    style="width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--primary); padding: 1rem 1.5rem; color: white; border-radius: 8px; outline: none; font-family: monospace;">
+                            </div>
+
+                            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                <span style="color: #666; font-size: 0.8rem; width: 100%; margin-bottom: 0.5rem;">LIVE
+                                    ATTACK SIMULATION (DEMO MODE):</span>
+                                <button onclick="simulateAttack('SQL Injection')"
+                                    style="background: rgba(255,0,85,0.1); border: 1px solid var(--danger); color: var(--danger); padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-size: 0.7rem; transition: 0.3s;"
+                                    onmouseover="this.style.background='rgba(255,0,85,0.2)'"
+                                    onmouseout="this.style.background='rgba(255,0,85,0.1)'">SIMULATE SQLi</button>
+                                <button onclick="simulateAttack('DDoS Attack')"
+                                    style="background: rgba(112,0,255,0.1); border: 1px solid var(--secondary); color: var(--secondary); padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-size: 0.7rem; transition: 0.3s;"
+                                    onmouseover="this.style.background='rgba(112,0,255,0.2)'"
+                                    onmouseout="this.style.background='rgba(112,0,255,0.1)'">SIMULATE DDoS</button>
+                                <button onclick="simulateAttack('Credential Stuffing')"
+                                    style="background: rgba(255,204,0,0.1); border: 1px solid var(--warning); color: var(--warning); padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-size: 0.7rem; transition: 0.3s;"
+                                    onmouseover="this.style.background='rgba(255,204,0,0.2)'"
+                                    onmouseout="this.style.background='rgba(255,204,0,0.1)'">SIMULATE BRUTE
+                                    FORCE</button>
+                            </div>
+                        </div>
+                        <div class="stat-card"
+                            style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 1.5rem; background: rgba(0,242,255,0.03); border: 1px solid var(--primary);">
+                            <div class="score-gauge">
+                                <div class="score-ring">
+                                    <div class="score-value">98</div>
+                                </div>
+                            </div>
+                            <h3 style="color: var(--primary); letter-spacing: 1px;">SECURITY SCORE</h3>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3>DATA SCANNED</h3>
+                            <p id="total-analyzed">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>ATTEMPTS FOILED</h3>
+                            <p id="threats-blocked" style="color: var(--danger)">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>UNKNOWN ANOMALIES</h3>
+                            <p id="active-anomalies" style="color: var(--warning)">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>AI ACCURACY</h3>
+                            <p id="system-health" style="color: var(--success)">98.2%</p>
+                        </div>
+                    </div>
+
+                    <div class="alert-feed" id="alert-feed">
+                        <h2>LIVE SECURITY EVENTS</h2>
+                        <!-- Alerts will be injected here -->
+                    </div>
+                </div>
+
+                <section class="mitre-panel" id="mitre-details">
+                    <h2 style="font-size: 1.2rem; margin-bottom: 1.5rem; color: var(--primary)">THREAT ANALYSIS</h2>
+                    <div id="mitre-content">
+                        <p style="color: #666; font-style: italic">Select a security event to see the AI's explanation.
+                        </p>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Threat Activity View -->
+            <div id="threat-activity-view" class="view hidden">
+                <div class="mitre-panel" style="grid-column: 1 / -1; display: flex; flex-direction: column;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                        <h2 style="color: var(--primary)">ADVANCED THREAT HUNTING</h2>
+                        <input type="text" id="log-search" placeholder="SEARCH LOGS (TYPE, ID...)"
+                            style="background: rgba(255,255,255,0.05); border: 1px solid var(--primary); padding: 0.8rem 1.5rem; color: white; border-radius: 20px; outline: none; width: 300px;">
+                    </div>
+                    <div id="log-table-container" style="flex: 1; overflow-y: auto;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+                            <thead
+                                style="position: sticky; top: 0; background: var(--bg); color: var(--primary); border-bottom: 2px solid var(--primary);">
+                                <tr>
+                                    <th style="padding: 1rem; text-align: left;">TIMESTAMP</th>
+                                    <th style="padding: 1rem; text-align: left;">ALERT TYPE</th>
+                                    <th style="padding: 1rem; text-align: left;">SEVERITY</th>
+                                    <th style="padding: 1rem; text-align: left;">TECHNIQUE</th>
+                                    <th style="padding: 1rem; text-align: left;">CONFIDENCE</th>
+                                </tr>
+                            </thead>
+                            <tbody id="log-table-body">
+                                <!-- Logs will be injected here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="security-strategy-view" class="view hidden">
+                <div class="mitre-panel" style="grid-column: 1 / -1">
+                    <h2 style="color: var(--primary); margin-bottom: 2rem">PROTECTION COVERAGE</h2>
+                    <div id="mitre-matrix-grid"
+                        style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px;">
+                        <!-- Techniques will be injected here -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="data-analytics-view" class="view hidden">
+                <div class="mitre-panel" style="grid-column: 1 / -1">
+                    <h2 style="color: var(--primary)">AI PERFORMANCE DATA</h2>
+                    <p style="margin-top: 1rem; color: #aaa">Visual metrics showing how the AI engine identifies risks.
+                    </p>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem">
+                        <div
+                            style="background: rgba(255,255,255,0.02); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05)">
+                            <h3 style="font-size: 0.9rem; margin-bottom: 1rem; color: var(--secondary)">DETECTION
+                                RELIABILITY</h3>
+                            <canvas id="feature-chart"></canvas>
+                        </div>
+                        <div
+                            style="background: rgba(255,255,255,0.02); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05)">
+                            <h3 style="font-size: 0.9rem; margin-bottom: 1rem; color: var(--secondary)">THREAT TRENDS
+                            </h3>
+                            <canvas id="trend-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="settings-view" class="view hidden">
+                <div class="mitre-panel" style="grid-column: 1 / -1">
+                    <h2 style="color: var(--primary)">ENGINE SETTINGS</h2>
+                    <p style="margin-top: 1rem; color: #aaa">Configure detection thresholds and API integrations.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script type="module" src="/main.js"></script>
+</body>
+
+</html>
