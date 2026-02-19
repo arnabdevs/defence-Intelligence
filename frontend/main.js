@@ -5,30 +5,16 @@ const alertFeed = document.getElementById('alert-feed');
 const mitreContent = document.getElementById('mitre-content');
 
 const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-let API_BASE = localStorage.getItem('AEGIS_API_BASE');
 
-// Fallback to local default if no storage and is local
-if (!API_BASE && isLocal) {
-    API_BASE = 'http://localhost:5000';
-}
+// Production API URL
+const PROD_API_BASE = 'https://defence-intelligence.onrender.com';
+
+let API_BASE = isLocal ? 'http://localhost:5000' : PROD_API_BASE;
 
 let API_KEY = localStorage.getItem('AEGIS_KEY');
 
 function checkAuth() {
-    // 1. Check for API Base URL if on the web
-    if (!API_BASE && !isLocal) {
-        API_BASE = prompt("🌐 AEGIS CORE DISCONNECTED\nPlease enter your Backend (Render) URL:\n(Example: https://aegis-api.onrender.com)");
-        if (API_BASE) {
-            // Clean the URL (remove trailing slash)
-            API_BASE = API_BASE.replace(/\/$/, "");
-            localStorage.setItem('AEGIS_API_BASE', API_BASE);
-        } else {
-            document.body.innerHTML = '<div style="height:100vh; display:flex; align-items:center; justify-content:center; background:#050505; color:orange; font-family:monospace; text-align:center; padding:20px;">CONNECTION REQUIRED<br><br>Please refresh and provide your Backend API URL to connect the Mission Control.</div>';
-            return false;
-        }
-    }
-
-    // 2. Check for API Key
+    // API_BASE is now pre-configured for production
     if (!API_KEY) {
         API_KEY = prompt("🔐 SECURITY ACCESS REQUIRED\nEnter your AEGIS API Key:");
         if (API_KEY) {
