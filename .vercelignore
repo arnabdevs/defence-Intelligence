@@ -1,0 +1,15 @@
+api/
+data/
+detection/
+models/
+preprocessing/
+requirements.txt
+Procfile
+Dockerfile
+docker-compose.yml
+results/
+mitre/
+README.md
+task.md
+implementation_plan.md
+walkthrough.md
